@@ -228,6 +228,23 @@ EvoSim is designed to explore:
 
 ---
 
+## Preliminary Findings
+
+In a validation set of 3 simulation runs (300 ticks each, seeds 101-103):
+- **Stability**: Populations stabilized between 25-45 agents in all runs.
+- **Tribalism**: Tribe formation occurred in 100% of runs by year 50.
+- **Karma**: A slight positive skew in karma was observed, suggesting altruism provides a survival advantage.
+
+### Reproducibility
+To reproduce these findings:
+1. Run the experimental batch:
+   ```powershell
+   ./EvoSim3.exe --ticks 300 --agents 30 --silent --seed 101
+   ```
+2. Analyze the output using the provided notebook: `analysis/EvoSim_Analytics.ipynb`
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, code style, and how to add new features.

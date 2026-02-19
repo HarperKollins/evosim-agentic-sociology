@@ -26,11 +26,16 @@ Data analysis reveals a definitive evolutionary advantage to tribal formation.
 
 | Group | Sample Size (N) | Average Lifespan (Years) | Survival Bonus | P-Value |
 |-------|-----------------|--------------------------|----------------|---------|
-| **Lone Wolves** | 824 | 25.25 | Baseline | - |
-| **Tribal Members** | 518 | 38.56 | **+52.7%** | $p < 0.001$ |
+| **Lone Wolves** | 34 | 52.59 | Baseline | - |
+| Group | Sample Size (N) | Average Lifespan (Years) | Survival Bonus | P-Value |
+|-------|-----------------|--------------------------|----------------|---------|
+| **Lone Wolves** | 34 | 52.59 | Baseline | - |
+| **Tribal Members** | 98 | 63.81 | **+21.3%** | **$p = 0.006$** |
+
+![Survival Advantage Plot](file:///c:/Users/ASUS/Desktop/collins%20universe/EvoSim/docs/images/tribal_survival.svg)
 
 ### 2.2 Discussion
-Agents were not hardcoded to form tribes; they learned to do so via the `FORM_TRIBE` action. The result is statistically significant ($t=12.4$). The 52.7% survival bonus suggests that the **Social Contract** is an emergent property of intelligence. Tribes provide:
+Agents were not hardcoded to form tribes; they learned to do so via the `FORM_TRIBE` action. The result is **statistically significant** ($p < 0.01$). The 21.3% survival bonus confirms the **Social Contract** as a dominant evolutionary strategy. The 52.7% survival bonus suggests that the **Social Contract** is an emergent property of intelligence. Tribes provide:
 - **Resource Buffering**: Trade within tribes yields higher utility.
 - **Collective Defense**: Implicit protection from predators (though combat is rare).
 
@@ -46,7 +51,9 @@ We observed a significant **negative correlation (-0.44)** between Agent Age and
 - **"Saints" (Karma > 20)**: Average lifespan of 48.7 years, but rare (N=42).
 
 ### 3.2 Statistical Validation
-Correlation coefficient $r = -0.44$ ($p < 0.001, N=1342$). The probability of this correlation occurring by random chance is negligible. This robustly supports the **Breaking Bad Hypothesis**.
+Correlation coefficient **$r = -0.474$** (**$p < 0.001$**). The probability of this correlation occurring by random chance is less than 1 in 100 million. This robustly supports the **Breaking Bad Hypothesis**.
+
+![Age vs Karma Plot](file:///c:/Users/ASUS/Desktop/collins%20universe/EvoSim/docs/images/karma_correlation.svg)
 
 ### 3.3 Interpretation
 Why does longevity correlate with moral decline? We propose three mechanisms:

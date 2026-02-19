@@ -1,0 +1,18 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg" style="background-color:white; font-family:sans-serif;">
+<text x="300.0" y="30" fill="black" font-size="20" text-anchor="middle">Survival Advantage of Tribalism (+21.3%)</text>
+<line x1="50" y1="350" x2="50" y2="50" stroke="black" stroke-width="2" />
+<text x="20" y="200.0" fill="black" font-size="16" text-anchor="middle">Age</text>
+<line x1="50" y1="350" x2="550" y2="350" stroke="black" stroke-width="2" />
+<line x1="150" y1="260.0" x2="150" y2="110.0" stroke="black" stroke-width="2" />
+<rect x="110" y="155.0" width="80" height="75.0" fill="#bdc3c7" stroke="black" />
+<line x1="110" y1="192.2" x2="190" y2="192.2" stroke="black" stroke-width="3" />
+<text x="150" y="380" fill="black" font-size="14" text-anchor="middle">Lone Wolf (N=34)</text>
+<line x1="450" y1="260.0" x2="450" y2="50.0" stroke="black" stroke-width="2" />
+<rect x="410" y="116.0" width="80" height="84.0" fill="#3498db" stroke="black" />
+<line x1="410" y1="158.6" x2="490" y2="158.6" stroke="black" stroke-width="3" />
+<text x="450" y="380" fill="black" font-size="14" text-anchor="middle">Tribal Member (N=98)</text>
+<line x1="150" y1="35.0" x2="150" y2="25.0" stroke="black" stroke-width="2" />
+<line x1="450" y1="35.0" x2="450" y2="25.0" stroke="black" stroke-width="2" />
+<line x1="150" y1="25.0" x2="450" y2="25.0" stroke="black" stroke-width="2" />
+<text x="300.0" y="20.0" fill="black" font-size="14" text-anchor="middle">p = 0.006 (**)</text>
+</svg>

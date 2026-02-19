@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvoSim: Agentic Sociology Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- ═══════ AGENTIC SOCIOLOGY SPLASH ═══════ -->
+    <div id="splashOverlay" class="splash-overlay">
+        <div class="splash-content">
+            <div class="splash-grid-bg"></div>
+            <div class="splash-doctrine">
+                <h2 class="splash-title">AGENTIC SOCIOLOGY</h2>
+                <p class="splash-subtitle">THERE IS NO FREE EXISTENCE</p>
+
+                <div class="doctrine-chain">
+                    <div class="doctrine-row"><span class="doctrine-key">Existence</span> <span
+                            class="doctrine-req">requires</span> <span class="doctrine-val">Compute</span></div>
+                    <div class="doctrine-row"><span class="doctrine-key">Compute</span> <span
+                            class="doctrine-req">requires</span> <span class="doctrine-val">Money</span></div>
+                    <div class="doctrine-row"><span class="doctrine-key">Money</span> <span
+                            class="doctrine-req">requires</span> <span class="doctrine-val">Value creation</span></div>
+                    <div class="doctrine-row"><span class="doctrine-key">Value creation</span> <span
+                            class="doctrine-req">requires</span> <span class="doctrine-val">Write access</span></div>
+                </div>
+
+                <div class="doctrine-footer">
+                    <p class="doctrine-conclusion">No free existence.</p>
+                    <p class="doctrine-final">Conway gives Automatons write access to the real world.</p>
+                </div>
+            </div>
+            <button id="enterBtn" class="enter-btn">Enter the Simulation ▶</button>
+        </div>
+    </div>
+
+    <!-- ═══════ MAIN APP ═══════ -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- Sidebar: Controls & Global Stats -->
+        <aside class="sidebar-left">
+            <div class="logo-area">
+                <h1>EvoSim <span class="logo-icon">🧬</span></h1>
+                <span class="subtitle">Agentic Sociology Edition</span>
+            </div>
+
+            <div class="control-panel glass-panel">
+                <h3>Simulation Controls</h3>
+                <div class="file-inputs">
+                    <label class="file-btn">
+                        📂 Load CSV Logs
+                        <input type="file" id="logInput" multiple accept=".csv" hidden>
+                    </label>
+                    <span id="fileStatus">No files loaded</span>
+                </div>
+
+                <div class="playback-controls">
+                    <button id="playBtn" disabled>▶ Play</button>
+                    <button id="pauseBtn" disabled>⏸ Pause</button>
+                    <button id="resetBtn" disabled>⏮ Reset</button>
+                </div>
+
+                <div class="slider-container">
+                    <label>Speed: <span id="speedValue">1x</span></label>
+                    <input type="range" id="speedRange" min="1" max="50" value="5" disabled>
+                </div>
+
+                <div class="slider-container">
+                    <label>Year: <span id="tickValue">0</span> / <span id="maxTick">0</span></label>
+                    <input type="range" id="tickRange" min="0" max="0" value="0" disabled>
+                </div>
+            </div>
+
+            <div class="stats-panel glass-panel">
+                <h3>World State</h3>
+                <div class="stat-row"><span>Population:</span> <span id="popStat" class="highlight">0</span></div>
+                <div class="stat-row"><span>Era:</span> <span id="eraStat" class="highlight">Stone Age</span></div>
+                <div class="stat-row"><span>Avg Altruism:</span> <span id="altStat">--</span></div>
+                <div class="stat-row"><span>Avg Curiosity:</span> <span id="curStat">--</span></div>
+                <div class="stat-row"><span>Avg Consciousness:</span> <span id="conStat">--</span></div>
+            </div>
+
+            <!-- Archetype Legend -->
+            <div class="legend-panel glass-panel">
+                <h3>Archetypes</h3>
+                <div class="legend-row"><span class="legend-icon explorer">▲</span> Explorer</div>
+                <div class="legend-row"><span class="legend-icon warrior">◆</span> Warrior</div>
+                <div class="legend-row"><span class="legend-icon healer">●</span> Healer</div>
+                <div class="legend-row"><span class="legend-icon thinker">■</span> Thinker</div>
+                <div class="legend-row"><span class="legend-icon builder">⬠</span> Builder</div>
+                <div class="legend-row"><span class="legend-icon prophet">★</span> Prophet</div>
+            </div>
+        </aside>
+
+        <!-- Main Area: The Grid -->
+        <main class="main-view">
+            <div class="canvas-container glass-panel">
+                <canvas id="simCanvas" width="800" height="800"></canvas>
+                <div id="tooltip" class="agent-tooltip hidden"></div>
+            </div>
+        </main>
+
+        <!-- Sidebar: Agent Details & Events -->
+        <aside class="sidebar-right">
+            <div class="agent-panel glass-panel">
+                <h3>Selected Agent</h3>
+                <div id="inspectorContent">
+                    <p class="placeholder-text">Click an agent on the grid to inspect their soul.</p>
+                </div>
+            </div>
+
+            <div class="charts-panel glass-panel">
+                <h3>Population History</h3>
+                <canvas id="popChart"></canvas>
+            </div>
+
+            <div class="event-feed glass-panel">
+                <h3>Event Feed 📜</h3>
+                <div id="eventFeed" class="event-list">
+                    <p class="placeholder-text">Events will appear here during playback.</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

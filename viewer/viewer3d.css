@@ -1,0 +1,313 @@
+/* ============================================================================
+   EvoSim 3D Viewer — Styles
+   Glassmorphism overlays on top of 3D viewport
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-dark: #0a0e1a;
+    --panel-bg: rgba(10, 14, 26, 0.85);
+    --panel-border: rgba(100, 255, 218, 0.15);
+    --accent: #64ffda;
+    --accent-warm: #ff9922;
+    --text: #e0e6f0;
+    --text-dim: #8892b0;
+    --glass: rgba(255, 255, 255, 0.05);
+    --radius: 12px;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-main: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text);
+    font-family: var(--font-main);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ── Splash ─────────────────────────────────────────────────────────────── */
+#splashOverlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #0d1a2d 0%, #050a14 80%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.splash-content {
+    text-align: center;
+    animation: fadeUp 1.5s ease-out;
+}
+
+.splash-title {
+    font-size: 4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), #a78bfa, var(--accent-warm));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.splash-subtitle {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+.splash-philosophy {
+    margin: 2rem 0;
+    opacity: 0.7;
+}
+
+.philosophy-line {
+    font-style: italic;
+    color: var(--text-dim);
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+#enterBtn {
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    color: var(--bg-dark);
+    border: none;
+    padding: 14px 40px;
+    border-radius: var(--radius);
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#enterBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(100, 255, 218, 0.4);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Main Container ─────────────────────────────────────────────────────── */
+#appContainer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+#viewport3d {
+    width: 100%;
+    height: 100%;
+}
+
+#viewport3d canvas {
+    display: block;
+}
+
+/* ── Glass Panels ───────────────────────────────────────────────────────── */
+.panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: 0.85rem;
+}
+
+#controlPanel {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 240px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 16px;
+    z-index: 10;
+}
+
+#controlPanel h2 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+}
+
+.accent {
+    color: var(--accent);
+}
+
+.control-section {
+    margin: 10px 0;
+    padding: 8px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.control-section label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin: 4px 0;
+    font-family: var(--font-mono);
+}
+
+.control-section input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+}
+
+.control-section button {
+    background: rgba(100, 255, 218, 0.1);
+    border: 1px solid rgba(100, 255, 218, 0.3);
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    margin: 2px;
+    transition: background 0.2s;
+}
+
+.control-section button:hover {
+    background: rgba(100, 255, 218, 0.25);
+}
+
+#loadBtn,
+#loadDemoBtn {
+    width: 100%;
+    padding: 8px;
+    margin: 3px 0;
+    font-size: 0.85rem;
+}
+
+#loadDemoBtn {
+    background: rgba(167, 139, 250, 0.15);
+    border-color: rgba(167, 139, 250, 0.3);
+    color: #a78bfa;
+}
+
+#fileStatus {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+}
+
+/* ── Stats Panel ────────────────────────────────────────────────────────── */
+#statsPanel {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    width: 220px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    z-index: 10;
+}
+
+#statsPanel h3,
+#inspectorPanel h3,
+#eventFeed h3 {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin: 4px 0;
+    font-family: var(--font-mono);
+}
+
+.stat-row span:first-child {
+    color: var(--text-dim);
+}
+
+.stat-row span:last-child {
+    color: var(--text);
+}
+
+/* ── Inspector ──────────────────────────────────────────────────────────── */
+#inspectorPanel {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 220px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    z-index: 10;
+}
+
+/* ── Event Feed ─────────────────────────────────────────────────────────── */
+#eventFeed {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 300px;
+    max-height: 250px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+#eventList {
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.6;
+}
+
+#eventList::-webkit-scrollbar {
+    width: 4px;
+}
+
+#eventList::-webkit-scrollbar-thumb {
+    background: var(--panel-border);
+    border-radius: 2px;
+}
+
+.event-item {
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: var(--text-dim);
+}
+
+.event-item .event-tick {
+    color: var(--accent);
+}

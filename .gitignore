@@ -1,0 +1,50 @@
+# ── Build artifacts ──────────────────────────────────
+*.exe
+*.obj
+*.o
+*.pdb
+*.ilk
+*.exp
+*.lib
+build/
+cmake-build*/
+CMakeFiles/
+CMakeCache.txt
+
+# ── Simulation output ───────────────────────────────
+*.csv
+!data/demo/*.csv
+
+# ── Debug/test output ───────────────────────────────
+debug_*.txt
+out.txt
+out*.txt
+output*.txt
+test_output.txt
+
+# ── Large binaries (download separately) ────────────
+*.gguf
+*.zip
+w64devkit/
+w64devkit.exe
+llama_cpp_bin/
+llama-*.zip
+
+# ── Python ──────────────────────────────────────────
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ── IDE / OS ────────────────────────────────────────
+.vs/
+.vscode/
+*.suo
+*.user
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# ── Misc ────────────────────────────────────────────
+test.cpp

@@ -1,0 +1,27 @@
+Tick,Event,Details
+22,BIRTH,Agent 19 had a child.
+30,DEATH,Agent 8 (Warrior) karma=56 enlightenment=0 cause=injury
+30,DEATH,Agent 10 (Builder) karma=56 enlightenment=0 cause=injury
+30,DEATH,Agent 16 (Warrior) karma=50 enlightenment=0 cause=injury
+30,DEATH,Agent 17 (Thinker) karma=56 enlightenment=0 cause=injury
+37,BIRTH,Agent 11 had a child.
+37,BIRTH,Agent 15 had a child.
+43,DEATH,Agent 13 (Explorer) karma=16 enlightenment=0 cause=injury
+44,DEATH,Agent 14 (Healer) karma=106 enlightenment=0 cause=injury
+45,DEATH,Agent 19 (Warrior) karma=8 enlightenment=0 cause=injury
+51,DEATH,Agent 1 (Warrior) karma=2 enlightenment=0 cause=injury
+51,DEATH,Agent 4 (Builder) karma=2 enlightenment=0 cause=injury
+53,DEATH,Agent 6 (Prophet) karma=-3 enlightenment=0 cause=injury
+58,DEATH,Agent 15 (Warrior) karma=52 enlightenment=0 cause=injury
+59,DEATH,Agent 12 (Prophet) karma=4 enlightenment=0 cause=injury
+62,DEATH,Agent 7 (Warrior) karma=-1 enlightenment=0 cause=injury
+63,DEATH,Agent 11 (Warrior) karma=59 enlightenment=0 cause=injury
+70,DEATH,Agent 23 (Explorer) karma=43 enlightenment=0 cause=injury
+72,BIRTH,Agent 22 had a child.
+72,DEATH,Agent 5 (Warrior) karma=10 enlightenment=0 cause=injury
+77,DEATH,Agent 2 (Warrior) karma=13 enlightenment=0 cause=injury
+77,DEATH,Agent 20 (Thinker) karma=-1 enlightenment=0 cause=injury
+78,DEATH,Agent 21 (Explorer) karma=5 enlightenment=0 cause=injury
+91,DEATH,Agent 3 (Warrior) karma=40 enlightenment=0 cause=injury
+91,DEATH,Agent 9 (Prophet) karma=15 enlightenment=0 cause=injury
+99,DEATH,Agent 18 (Prophet) karma=16 enlightenment=0 cause=injury

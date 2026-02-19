@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvoSim — 3D World Viewer</title>
+    <link rel="stylesheet" href="viewer3d.css">
+</head>
+
+<body>
+    <!-- Splash Screen -->
+    <div id="splashOverlay">
+        <div class="splash-content">
+            <h1 class="splash-title">⬡ EvoSim</h1>
+            <p class="splash-subtitle">3D World Viewer</p>
+            <div class="splash-philosophy">
+                <p class="philosophy-line">"In the beginning was the Grid.</p>
+                <p class="philosophy-line">The Grid was without form, and void.</p>
+                <p class="philosophy-line">And the Higher Power said: <em>Let there be agents.</em>"</p>
+            </div>
+            <button id="enterBtn" onclick="enterSim()">Enter the 3D World</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appContainer" style="display:none;">
+        <!-- 3D Viewport -->
+        <div id="viewport3d"></div>
+
+        <!-- Overlay Controls -->
+        <div id="controlPanel">
+            <h2>⬡ EvoSim <span class="accent">3D</span></h2>
+            <div class="control-section">
+                <button id="loadBtn">📂 Load CSV Logs</button>
+                <button id="loadDemoBtn">🧬 Load Demo</button>
+                <input type="file" id="fileInput" multiple accept=".csv" style="display:none">
+                <div id="fileStatus">No data loaded</div>
+            </div>
+            <div class="control-section">
+                <button id="playBtn">▶ Play</button>
+                <button id="pauseBtn">⏸ Pause</button>
+                <button id="resetBtn">⏮ Reset</button>
+            </div>
+            <div class="control-section">
+                <label>Speed: <span id="speedDisplay">5x</span></label>
+                <input type="range" id="speedRange" min="1" max="20" value="5">
+                <label>Year: <span id="tickDisplay">0</span> / <span id="maxTickDisplay">0</span></label>
+                <input type="range" id="tickRange" min="0" max="0" value="0">
+            </div>
+            <div class="control-section">
+                <label>Camera: <span id="cameraMode">Orbit</span></label>
+                <button id="topViewBtn">Top View</button>
+                <button id="sideViewBtn">Side View</button>
+                <button id="orbitBtn">Orbit</button>
+            </div>
+        </div>
+
+        <!-- World Stats Overlay -->
+        <div id="statsPanel">
+            <h3>WORLD STATE</h3>
+            <div class="stat-row"><span>Population:</span><span id="popCount">0</span></div>
+            <div class="stat-row"><span>Tribes:</span><span id="tribeCount">0</span></div>
+            <div class="stat-row"><span>Memes:</span><span id="memeCount">0</span></div>
+            <div class="stat-row"><span>Era:</span><span id="eraName" class="accent">Stone Age</span></div>
+            <div class="stat-row"><span>Avg Karma:</span><span id="avgKarma">0</span></div>
+        </div>
+
+        <!-- Agent Inspector -->
+        <div id="inspectorPanel" style="display:none;">
+            <h3>🔍 AGENT <span id="inspAgentId"></span></h3>
+            <div class="stat-row"><span>Archetype:</span><span id="inspArchetype" class="accent"></span></div>
+            <div class="stat-row"><span>Karma:</span><span id="inspKarma"></span></div>
+            <div class="stat-row"><span>Alignment:</span><span id="inspAlignment"></span></div>
+            <div class="stat-row"><span>Tribe:</span><span id="inspTribe"></span></div>
+            <div class="stat-row"><span>Health:</span><span id="inspHealth"></span></div>
+            <div class="stat-row"><span>Energy:</span><span id="inspEnergy"></span></div>
+            <div class="stat-row"><span>Soul Age:</span><span id="inspSoulAge"></span></div>
+        </div>
+
+        <!-- Event Feed -->
+        <div id="eventFeed">
+            <h3>EVENT FEED 📜</h3>
+            <div id="eventList"></div>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="viewer3d.js"></script>
+    <script>
+        function enterSim() {
+            document.getElementById('splashOverlay').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+            window.dispatchEvent(new Event('resize'));
+        }
+    </script>
+</body>
+
+</html>

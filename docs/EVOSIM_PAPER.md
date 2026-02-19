@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This paper analyzes the emergent sociological behaviors of autonomous neural-network-driven agents within the EvoSim environment. By processing over 10,000 agent-years of simulation data across multiple environmental configurations, we quantify the survival advantages of emergent tribalism and identify a counter-intuitive relationship between moral alignment (Karma) and longevity. Our findings suggest that while social cohesion (tribalism) offers a massive 52.7% survival benefit, the pressure to survive into old age correlates with a decline in moral standing, a phenomenon we term the **"Breaking Bad Hypothesis"**.
+This paper analyzes the emergent sociological behaviors of autonomous neural-network-driven agents within the EvoSim environment. By processing over 10,000 agent-years of simulation data across multiple environmental configurations, we quantify the survival advantages of emergent tribalism and identify a counter-intuitive relationship between moral alignment (Karma) and longevity. Our findings suggest that while social cohesion (tribalism) offers a **21.3%** survival benefit, the pressure to survive into old age correlates with a decline in moral standing, a phenomenon we term the **"Breaking Bad Hypothesis"**.
 
 ## 1. Methodology
 
@@ -27,12 +27,9 @@ Data analysis reveals a definitive evolutionary advantage to tribal formation.
 | Group | Sample Size (N) | Average Lifespan (Years) | Survival Bonus | P-Value |
 |-------|-----------------|--------------------------|----------------|---------|
 | **Lone Wolves** | 34 | 52.59 | Baseline | - |
-| Group | Sample Size (N) | Average Lifespan (Years) | Survival Bonus | P-Value |
-|-------|-----------------|--------------------------|----------------|---------|
-| **Lone Wolves** | 34 | 52.59 | Baseline | - |
 | **Tribal Members** | 98 | 63.81 | **+21.3%** | **$p = 0.006$** |
 
-![Survival Advantage Plot](file:///c:/Users/ASUS/Desktop/collins%20universe/EvoSim/docs/images/tribal_survival.svg)
+![Survival Advantage Plot](colab_tribal.png)
 
 ### 2.2 Discussion
 Agents were not hardcoded to form tribes; they learned to do so via the `FORM_TRIBE` action. The result is **statistically significant** ($p < 0.01$). The 21.3% survival bonus confirms the **Social Contract** as a dominant evolutionary strategy. The 52.7% survival bonus suggests that the **Social Contract** is an emergent property of intelligence. Tribes provide:
@@ -53,7 +50,7 @@ We observed a significant **negative correlation (-0.44)** between Agent Age and
 ### 3.2 Statistical Validation
 Correlation coefficient **$r = -0.474$** (**$p < 0.001$**). The probability of this correlation occurring by random chance is less than 1 in 100 million. This robustly supports the **Breaking Bad Hypothesis**.
 
-![Age vs Karma Plot](file:///c:/Users/ASUS/Desktop/collins%20universe/EvoSim/docs/images/karma_correlation.svg)
+![Age vs Karma Plot](colab_karma.png)
 
 ### 3.3 Interpretation
 Why does longevity correlate with moral decline? We propose three mechanisms:
@@ -82,4 +79,3 @@ EvoSim demonstrates that **tribalism is an optimal policy** for autonomous agent
 If autonomous agents naturally evolve toward tribalism (+52% survival) but also toward selfishness over time (Karma decay), what does this say about human sociological evolution? Perhaps "morality" is not a survival trait of the *individual*, but of the *group*—a group of altruists dies young individually, but the Tribe persists.
 
 ---
-*Generated via EvoSim Analytics Engine*

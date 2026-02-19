@@ -25,6 +25,7 @@ test_output.txt
 # ── Large binaries (download separately) ────────────
 *.gguf
 *.zip
+!datasets.zip
 w64devkit/
 w64devkit.exe
 llama_cpp_bin/

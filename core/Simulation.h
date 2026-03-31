@@ -149,7 +149,7 @@ public:
             std::cout << "==========================================================\n\n";
         }
 
-        while (currentTick < config.maxTicks && !agents.empty()) {
+        while ((config.maxTicks == -1 || currentTick < config.maxTicks) && !agents.empty()) {
             if (!config.silent) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
             }
@@ -168,6 +168,7 @@ public:
             }
 
             logData();
+            writeLiveState();
         }
 
         if (!config.saveBrainPath.empty()) {
@@ -235,20 +236,33 @@ private:
             bool reproduced = false;
             // Lowered barrier: Energy 40, Age 15
             if (act == Action::MATE) {
-                 std::cout << "[DEBUG] Agent " << a->id << " Mating... E:" << a->stats.energy << " A:" << a->stats.age << "\n";
-                 if (a->stats.energy > 40.0f && a->stats.age > 15) {
-                     float successChance = 0.5f;
-                     if (a->stats.libido > 80.0f) successChance = 0.9f; 
+                 if (a->stats.energy > 40.0f && a->stats.age > 15 && !neighbors.empty()) {
+                     Agent* partner = nullptr;
+                     for (auto* n : neighbors) {
+                         if (n->isAlive() && n->stats.age > 15 && n->stats.energy > 30.0f && world.getDist(a->x, a->y, n->x, n->y) <= 2.0f) {
+                             partner = n;
+                             break;
+                         }
+                     }
+                     if (partner != nullptr) {
+                         float successChance = 0.5f;
+                         if (a->stats.libido > 80.0f || partner->stats.libido > 80.0f) successChance = 0.9f; 
 
-                     if (Random::instance().chance(successChance)) {
-                         auto child = a->reproduce(world);
-                         a->soul.childrenThisLife++;
-                         a->soul.recordEvent("Had child #" + std::to_string(a->soul.childrenThisLife));
-                         newBabies.push_back(std::move(child));
-                         a->stats.kinship += 10.0f; 
-                         reproduced = true;
-                         std::cout << "[BIRTH] Agent " << a->id << " had a child.\n";
-                         Logger::instance().logEvent(currentTick, "BIRTH", "Agent " + std::to_string(a->id) + " had a child.");
+                         if (Random::instance().chance(successChance)) {
+                             auto child = a->reproduce(world, *partner);
+                             a->soul.childrenThisLife++;
+                             partner->soul.childrenThisLife++;
+                             a->soul.recordEvent("Had child #" + std::to_string(a->soul.childrenThisLife));
+                             partner->soul.recordEvent("Had child #" + std::to_string(partner->soul.childrenThisLife));
+                             newBabies.push_back(std::move(child));
+                             a->stats.kinship += 10.0f; 
+                             partner->stats.kinship += 10.0f;
+                             partner->stats.energy -= 20.0f; // Partner cost
+                             partner->stats.libido = 0.0f;
+                             reproduced = true;
+                             std::cout << "[BIRTH] Agent " << a->id << " and " << partner->id << " had a child.\n";
+                             Logger::instance().logEvent(currentTick, "BIRTH", "Agent " + std::to_string(a->id) + " and " + std::to_string(partner->id) + " had a child.");
+                         }
                      }
                  }
             }
@@ -479,6 +493,36 @@ private:
             Logger::instance().logAgent(currentTick, *a, world.getBiomeName(world.grid[a->y][a->x].biome));
         }
         Logger::instance().logWorld(currentTick, world, alive, 0, 0, globalAverageAltruism, globalAverageCuriosity, globalAverageConsciousness); 
+    }
+
+    void writeLiveState() {
+        if (currentTick % 10 != 0) return;
+        std::ofstream live("live_state.json");
+        live << "{\n";
+        live << "  \"tick\": " << currentTick << ",\n";
+        int pop = 0;
+        for(const auto& a : agents) if(a->isAlive()) pop++;
+        live << "  \"pop\": " << pop << ",\n";
+        live << "  \"avgAlt\": " << globalAverageAltruism << ",\n";
+        live << "  \"avgCur\": " << globalAverageCuriosity << ",\n";
+        live << "  \"avgConsc\": " << globalAverageConsciousness << ",\n";
+        live << "  \"agents\": [\n";
+        
+        bool first = true;
+        for (const auto& a : agents) {
+            if (!a->isAlive()) continue;
+            if (!first) live << ",\n";
+            live << "    {\"id\":" << a->id << ",\"x\":" << a->x << ",\"y\":" << a->y 
+                 << ",\"hp\":" << a->stats.health << ",\"energy\":" << a->stats.energy
+                 << ",\"archetype\":\"" << Soul::archetypeName(a->soul.archetype) << "\""
+                 << ",\"karma\":" << a->soul.karma << ",\"enlightenment\":" << a->soul.enlightenment
+                 << ",\"age\":" << a->stats.age << ",\"gen\":" << a->stats.generation
+                 << ",\"biome\":\"" << world.getBiomeName(world.grid[a->y][a->x].biome) << "\""
+                 << "}";
+            first = false;
+        }
+        live << "\n  ]\n}\n";
+        live.close();
     }
 
     void printStatus() {

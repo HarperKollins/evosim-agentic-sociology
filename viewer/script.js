@@ -25,6 +25,7 @@ class SimulationViewer {
         this.gridSize = 0;
         this.cellSize = 0;
         this.playing = false;
+        this.isLive = false;
         this.speed = 5;
         this.selectedAgentId = -1;
         this.animFrame = null;
@@ -65,6 +66,7 @@ class SimulationViewer {
         document.getElementById('logInput').addEventListener('change', (e) => this.handleFileSelect(e));
 
         // Playback
+        document.getElementById('liveBtn').addEventListener('click', () => this.toggleLive());
         document.getElementById('playBtn').addEventListener('click', () => this.play());
         document.getElementById('pauseBtn').addEventListener('click', () => this.pause());
         document.getElementById('resetBtn').addEventListener('click', () => this.reset());
@@ -577,6 +579,54 @@ class SimulationViewer {
     }
 
     // ── Playback ────────────────────────────────────────────────────────────
+    toggleLive() {
+        this.isLive = !this.isLive;
+        const btn = document.getElementById('liveBtn');
+        if (this.isLive) {
+            btn.innerHTML = '⏹ Stop Live';
+            btn.style.color = '#ff4466';
+            this.pause();
+            this.pollLive();
+        } else {
+            btn.innerHTML = '🔴 Live';
+            btn.style.color = '';
+        }
+    }
+
+    async pollLive() {
+        if (!this.isLive) return;
+        try {
+            const resp = await fetch('../live_state.json?' + new Date().getTime());
+            if (resp.ok) {
+                const data = await resp.json();
+                this.currentTick = data.tick;
+                this.maxTick = Math.max(this.maxTick, data.tick);
+                
+                this.agents[this.currentTick] = data.agents;
+                this.worldStates[this.currentTick] = {
+                    pop: data.pop,
+                    avgAlt: data.avgAlt,
+                    avgCur: data.avgCur,
+                    avgConsc: data.avgConsc
+                };
+                
+                data.agents.forEach(a => {
+                    if (a.x >= this.gridSize) this.gridSize = a.x + 1;
+                    if (a.y >= this.gridSize) this.gridSize = a.y + 1;
+                });
+                
+                if (this.gridSize > 0) {
+                    this.cellSize = this.canvas.width / this.gridSize;
+                }
+                this.render();
+            }
+        } catch (e) { }
+        
+        if (this.isLive) {
+            setTimeout(() => this.pollLive(), 500);
+        }
+    }
+
     play() {
         if (this.currentTick >= this.maxTick) this.currentTick = 0;
         this.playing = true;
@@ -768,6 +818,7 @@ class SimulationViewer {
 
         if (loaded > 0) {
             document.getElementById('fileStatus').innerText = `✓ Auto-loaded ${loaded} files`;
+            document.getElementById('liveBtn').disabled = false;
             this.onDataLoaded();
             // Start paused at Year 0 — user hits Play
             this.speed = 5;

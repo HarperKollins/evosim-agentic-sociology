@@ -55,15 +55,11 @@ public:
         int startY = (y - range) / cellSize;
         int endY = (y + range) / cellSize;
 
-        // Clamp
-        startX = std::max(0, startX);
-        endX = std::min(cols - 1, endX);
-        startY = std::max(0, startY);
-        endY = std::min(rows - 1, endY);
-
         for (int cy = startY; cy <= endY; cy++) {
             for (int cx = startX; cx <= endX; cx++) {
-                const auto& cellAgents = grid[cy * cols + cx];
+                int wrappedY = ((cy % rows) + rows) % rows;
+                int wrappedX = ((cx % cols) + cols) % cols;
+                const auto& cellAgents = grid[wrappedY * cols + wrappedX];
                 for (auto* a : cellAgents) {
                     result.push_back(a);
                 }

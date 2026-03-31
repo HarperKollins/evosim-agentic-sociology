@@ -246,8 +246,8 @@ To reproduce these findings:
 ## Key Insights 🧪
 Full analysis available in **[docs/EVOSIM_PAPER.md](docs/EVOSIM_PAPER.md)**.
 
-1. **The Tribal Imperative**: Agents in tribes live **52.7% longer** than lone wolves (38.6 vs 25.3 years).
-2. **The Breaking Bad Hypothesis**: We found a strong negative correlation (-0.44) between Age and Karma. Older agents tend to be more selfish, suggesting morality decays under survival pressure without external enforcement.
+1. **The Tribal Imperative**: Agents in tribes live **21.3% longer** than lone wolves (63.8 vs 52.6 years). This finding is **statistically significant** ($p = 0.006$).
+2. **The Breaking Bad Hypothesis**: We found a strong negative correlation (**$r = -0.47$**) between Age and Karma ($p < 0.001$). Older agents consistently become more selfish.
 
 ---
 

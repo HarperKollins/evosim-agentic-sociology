@@ -22,8 +22,9 @@ EvoSim: Artificial Life Intelligence Sandbox -- Genesis Edition v2.0
 Usage: EvoSim [options]
 
 Options:
-  --ticks N        Max simulation ticks (default: 2000)
-  --agents N       Initial agent count (default: 4, like Genesis)
+  --ticks N        Max simulation ticks (default: 20000)
+  --infinite       Run infinitely until agents go extinct
+  --agents N       Initial agent count (default: 20)
   --grid N         Grid size NxN (default: 40)
   --maxpop N       Max population cap (default: 50)
   --lamarckian     Inherited learned weights (default)
@@ -62,6 +63,9 @@ int main(int argc, char* argv[]) {
         }
         else if (arg == "--ticks" && i + 1 < argc) {
             config.maxTicks = std::stoi(argv[++i]);
+        }
+        else if (arg == "--infinite") {
+            config.maxTicks = -1;
         }
         else if (arg == "--agents" && i + 1 < argc) {
             config.initialAgents = std::stoi(argv[++i]);

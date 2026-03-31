@@ -129,7 +129,7 @@ public:
         inputs[6] = (cell.type == CellType::TREE_OF_KNOWLEDGE) ? 1.0f : 0.0f; // Keep as "Ancient Relic"?
         inputs[7] = (cell.type == CellType::PREDATOR) ? 1.0f : 0.0f;
         // 8-10 Social / Tribe
-        float nearestDist = findNearbyAgent(x, y, neighbors);
+        float nearestDist = findNearbyAgent(x, y, neighbors, world);
         inputs[8] = std::clamp(nearestDist / 20.0f, 0.0f, 1.0f);
         inputs[9] = stats.kinship / 100.0f;
         inputs[10] = stats.status / 100.0f; 
@@ -262,7 +262,7 @@ public:
                     int nearbyCount = 0;
                     for (auto* other : neighbors) {
                         if (other->id != id && other->isAlive()) {
-                            float d = std::sqrt(std::pow(x - other->x, 2) + std::pow(y - other->y, 2));
+                            float d = world.getDist(x, y, other->x, other->y);
                             if (d <= 5.0f) nearbyCount++;
                         }
                     }
@@ -277,7 +277,7 @@ public:
                         // Recruit nearby agents
                         for (auto* other : neighbors) {
                             if (other->id != id && other->isAlive() && other->tribeId == -1) {
-                                float d = std::sqrt(std::pow(x - other->x, 2) + std::pow(y - other->y, 2));
+                                float d = world.getDist(x, y, other->x, other->y);
                                 if (d <= 5.0f) {
                                     other->tribeId = newTribeId;
                                     social.addToTribe(newTribeId, other->id);
@@ -289,7 +289,7 @@ public:
                     // Already in tribe — recruit nearby agents
                     for (auto* other : neighbors) {
                         if (other->id != id && other->isAlive() && other->tribeId == -1) {
-                            float d = std::sqrt(std::pow(x - other->x, 2) + std::pow(y - other->y, 2));
+                            float d = world.getDist(x, y, other->x, other->y);
                             if (d <= 3.0f && other->stats.kinship > 30.0f) {
                                 other->tribeId = tribeId;
                                 social.addToTribe(tribeId, other->id);
@@ -341,7 +341,7 @@ public:
                     int memeIdx = culturalMemes[Random::instance().uniformInt(0, static_cast<int>(culturalMemes.size()) - 1)];
                     for (auto* other : neighbors) {
                         if (other->id != id && other->isAlive()) {
-                            float d = std::sqrt(std::pow(x - other->x, 2) + std::pow(y - other->y, 2));
+                            float d = world.getDist(x, y, other->x, other->y);
                             if (d <= 3.0f) {
                                 // Check if they already have this meme
                                 bool has = false;
@@ -370,13 +370,23 @@ public:
                 float minD = 9999.0f;
                 for (auto* other : neighbors) {
                     if (other->id != id && other->isAlive()) {
-                        float d = std::sqrt(std::pow(x - other->x, 2) + std::pow(y - other->y, 2));
+                        float d = world.getDist(x, y, other->x, other->y);
                         if (d < minD) { minD = d; nearX = other->x; nearY = other->y; }
                     }
                 }
                 if (minD < 9999.0f) {
-                    int fx = x + (x > nearX ? 1 : -1);
-                    int fy = y + (y > nearY ? 1 : -1);
+                    int diffX = x - nearX;
+                    if (diffX > world.width / 2) diffX -= world.width;
+                    if (diffX < -world.width / 2) diffX += world.width;
+                    int dx = (diffX > 0) ? 1 : (diffX < 0 ? -1 : 0);
+                    
+                    int diffY = y - nearY;
+                    if (diffY > world.height / 2) diffY -= world.height;
+                    if (diffY < -world.height / 2) diffY += world.height;
+                    int dy = (diffY > 0) ? 1 : (diffY < 0 ? -1 : 0);
+                    
+                    int fx = x + dx;
+                    int fy = y + dy;
                     world.clamp(fx, fy);
                     if (world.grid[fy][fx].biome != Biome::OCEAN) { x = fx; y = fy; }
                 }
@@ -508,10 +518,23 @@ public:
         return stats.energy > energyReq && stats.health > 30.0f && stats.age > 10;
     }
 
-    std::unique_ptr<Agent> reproduce(World& world) {
+    std::unique_ptr<Agent> reproduce(World& world, const Agent& partner) {
         stats.energy -= 30.0f;
-        // stat penalty/cost
-        return std::make_unique<Agent>(*this, x, y);
+        auto child = std::make_unique<Agent>(*this, x, y);
+        
+        // 1. Genetic crossover for Stats
+        child->stats.intelligence = (stats.intelligence + partner.stats.intelligence) / 2.0f;
+        child->stats.kinship = (stats.kinship + partner.stats.kinship) / 2.0f;
+        if (Random::instance().chance(0.1f)) child->stats.intelligence += Random::instance().uniformFloat(-5.0f, 5.0f);
+        if (Random::instance().chance(0.1f)) child->stats.kinship += Random::instance().uniformFloat(-5.0f, 5.0f);
+        
+        // 2. Neural Network crossover
+        child->brain = NeuralNetwork::crossover(this->brain, partner.brain);
+        child->brain.mutate(0.05f, 0.1f);
+        
+        // 3. Heritage
+        child->soul.recordEvent("Born from Agent " + std::to_string(id) + " and Agent " + std::to_string(partner.id));
+        return child;
     }
     
     std::string causeOfDeath() const {
@@ -522,7 +545,7 @@ public:
     }
 
 private:
-    float findNearbyAgent(int cx, int cy, const std::vector<Agent*>& neighbors) {
+    float findNearbyAgent(int cx, int cy, const std::vector<Agent*>& neighbors, const World& world) {
         float minDist = 9999.0f;
         for (const auto* other : neighbors) {
              // Skip self (check by pointer or ID)
@@ -531,7 +554,7 @@ private:
             // Also skip dead? The spatial hash usually stores active ones, but double check
             if (!other->isAlive()) continue;
 
-            float dist = std::sqrt(std::pow(cx - other->x, 2) + std::pow(cy - other->y, 2));
+            float dist = world.getDist(cx, cy, other->x, other->y);
             if (dist < minDist) minDist = dist;
         }
         return minDist;

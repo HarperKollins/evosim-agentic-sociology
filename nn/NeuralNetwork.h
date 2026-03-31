@@ -138,6 +138,28 @@ public:
         return count;
     }
 
+    static NeuralNetwork crossover(const NeuralNetwork& parent1, const NeuralNetwork& parent2) {
+        NeuralNetwork child = parent1.clone();
+        auto& rng = Random::instance();
+        
+        for (size_t l = 0; l < child.layers.size(); l++) {
+            auto& layer = child.layers[l];
+            const auto& p2Layer = parent2.layers[l];
+            
+            for (int i = 0; i < layer.outputSize(); i++) {
+                for (int j = 0; j < layer.inputSize(); j++) {
+                    if (rng.chance(0.5f)) {
+                        layer.weights.at(i, j) = p2Layer.weights.at(i, j);
+                    }
+                }
+                if (rng.chance(0.5f)) {
+                    layer.biases[i] = p2Layer.biases[i];
+                }
+            }
+        }
+        return child;
+    }
+
     // ── Persistence ─────────────────────────────────────────────────────────
     bool save(const std::string& filename) const {
         std::ofstream file(filename);
